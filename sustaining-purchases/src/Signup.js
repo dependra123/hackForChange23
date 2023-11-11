@@ -6,6 +6,7 @@ import { signUp, signIn, signInWithGoogle, signOutUser, isUserSignedIn, getUserI
 const AuthComponent = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmpassword, setconfirmPassword] = useState('');
   const [userSignedIn, setUserSignedIn] = useState(false);
   const [userImage, setUserImage] = useState(null);
   const naviagte = useNavigate();
@@ -63,9 +64,16 @@ const AuthComponent = () => {
           <h2>Sign Up</h2>
           <label>Email:</label>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <br/>
           <label>Password:</label>
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          <button onClick={handleSignUp}>Sign Up with Email</button>
+          <label style = {{visibility:(password.length>7)?"hidden":"visible"}}>password needs at least 8 characters</label>
+          <br/>
+          <label>re-enter Password:</label>
+          <input type="password" value={confirmpassword} onChange={(e) => setconfirmPassword(e.target.value)} />
+          <label style = {{visibility:(confirmpassword===password)?"hidden":"visible"}}>passwords don't match</label>
+          <br/>
+          <button onClick={handleSignUp} disabled = {!(confirmpassword===password)}>Sign Up with Email</button>
           <p>
             Already have an account? <Link to="/signin">Sign In</Link>
           </p>
