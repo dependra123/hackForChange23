@@ -23,7 +23,7 @@ const AuthComponent = () => {
       naviagte('/main');
     } catch (error) {
       // Handle the error (e.g., display an error message)
-      console.error(error);
+      console.log(error);
     }
   };
 
@@ -38,17 +38,6 @@ const AuthComponent = () => {
     }
   };
 
-  const handleSignInWithGoogle = async () => {
-    try {
-      await signInWithGoogle();
-      // Redirect or perform additional actions after successful sign-in with Google
-      naviagte('/main');
-    } catch (error) {
-      // Handle the error (e.g., display an error message)
-      console.error(error);
-    }
-    
-  };
 
   const handleSignOut = async () => {
     try {
@@ -71,18 +60,14 @@ const AuthComponent = () => {
         </div>
       ) : (
         <div>
-          <h2>Sign In</h2>
+          <h2>Sign Up</h2>
           <label>Email:</label>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           <label>Password:</label>
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          <button onClick={handleSignInWithEmail}>Sign In with Email</button>
-          <button onClick={()=>{
-            handleSignInWithGoogle();
-            console.log(isUserSignedIn());
-          }}>Sign In with Google</button>
+          <button onClick={handleSignUp}>Sign Up with Email</button>
           <p>
-            Don't have an account? <Link to="/signup">Sign Up</Link>
+            Already have an account? <Link to="/signin">Sign In</Link>
           </p>
         </div>
       )}

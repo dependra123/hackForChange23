@@ -5,6 +5,7 @@ import './index.css';
 import Nav from "./Nav'"
 import App from './App';
 import Signin from './Signin';
+import Signup from './Signup';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,6 +15,7 @@ root.render(
         <Route path="/" element={<Nav />}>
           <Route path="main" element={<App />} />
           <Route path="signIn" element={<Signin/>}/>
+          <Route path="signUp" element={<Signup/>}/>
           </Route>
       </Routes>
     </Router>

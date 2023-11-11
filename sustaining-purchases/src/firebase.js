@@ -22,18 +22,20 @@ const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 // Function to handle user sign-up
 export const signUp = async (email, password) => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  await createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential)=>{
       const user = userCredential.user;
       console.log("User signed up:", user);
       return user;
-    } catch (error) {
+    })
+    .catch((error)=>{
       const errorCode = error.code;
       const errorMessage = error.message;
       console.error("Sign up error:", errorCode, errorMessage);
       throw error;
-    }
-  };
+    })
+      
+    };
   
   // Function to handle user sign-in
   export const signIn = async (email, password) => {
