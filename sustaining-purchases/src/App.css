@@ -3,10 +3,11 @@
 }
 .nav{
   display: flex;
-  align-items: flex-start;
+  justify-content: space-between;
   padding: 15px 15px;
   background-color: #6BA368;
 }
+
 .menu{
   scale: 150%;
 }
