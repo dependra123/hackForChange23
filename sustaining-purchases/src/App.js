@@ -1,29 +1,23 @@
-import { motion } from "framer-motion"
-import { getUserImage, isUserSignedIn } from "./firebase";
+import { useNavigate } from 'react-router-dom';
 import './App.css';
 
 
+
+
+
 function App() {
-  const userSignedIn = isUserSignedIn();
-  const userImage = getUserImage();
+  
+
   return (
     
     <div className="App">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-      <div className="nav">
-        <motion.span class="material-symbols-outlined menu" > menu </motion.span>
-        <span className="alignEnd">
-        {(userSignedIn) ? (
-          <>
-            <motion.img src={userImage} alt="User" style={{ width: '30px', height: '30px', borderRadius: '50%' }} />
-          </>
-        ):(<>
-          <motion.button style={{background:"#c5d5ea ", border:'none', cursor:'pointer', borderRadius:'27px', height:'30px', width:'90px', margin:'none', fontWeight:'bold'}}>Sign In</motion.button>
-        </>)
-        }
-        </span>
+      
+      <div>
+
+        <div className="Landingpage">  <div className="text">Sustaining purchases is a non-profit website designed for producers<br/>and industries. It allows industries like restaurants to easily find more<br/>sustainable products by sourcing items locally and automatically<br/>finding eco-friendly options online using AI. It also allows local<br/>producers like farmers to and find consumers more easily and earn<br/>more money by cutting out the middleman.</div>      </div>
 
       </div>
+      
       
     </div>
   );

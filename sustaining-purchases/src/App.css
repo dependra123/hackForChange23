@@ -1,11 +1,13 @@
 .App {
   text-align: center;
+  
 }
 .nav{
   display: flex;
   justify-content: space-between;
   padding: 15px 15px;
   background-color: #6BA368;
+  height: 3vh;
 }
 
 .menu{
@@ -17,5 +19,26 @@
   'wght' 400,
   'GRAD' 0,
   'opsz' 24
+}
+.Landingpage{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url(./images/image_2.png);
+  height: 93.9vh; 
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  font-weight: bold;
+  color:white;
+  font-size: 25px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+  
+  
+
 }
 
