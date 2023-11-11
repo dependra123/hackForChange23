@@ -1,6 +1,6 @@
 // src/components/AuthComponent.js
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { signUp, signIn, signInWithGoogle, signOutUser, isUserSignedIn, getUserImage } from './firebase'; // Adjust the path based on your project structure
 
 const AuthComponent = () => {
@@ -8,6 +8,7 @@ const AuthComponent = () => {
   const [password, setPassword] = useState('');
   const [userSignedIn, setUserSignedIn] = useState(false);
   const [userImage, setUserImage] = useState(null);
+  const naviagte = useNavigate();
 
   useEffect(() => {
     // Check user sign-in status and fetch user image on component mount
@@ -19,6 +20,7 @@ const AuthComponent = () => {
     try {
       await signUp(email, password);
       // Redirect or perform additional actions after successful sign-up
+      naviagte('/main');
     } catch (error) {
       // Handle the error (e.g., display an error message)
       console.error(error);
@@ -29,6 +31,7 @@ const AuthComponent = () => {
     try {
       await signIn(email, password);
       // Redirect or perform additional actions after successful sign-in
+      naviagte('/main');
     } catch (error) {
       // Handle the error (e.g., display an error message)
       console.error(error);
@@ -39,6 +42,7 @@ const AuthComponent = () => {
     try {
       await signInWithGoogle();
       // Redirect or perform additional actions after successful sign-in with Google
+      naviagte('/main');
     } catch (error) {
       // Handle the error (e.g., display an error message)
       console.error(error);
@@ -50,6 +54,7 @@ const AuthComponent = () => {
     try {
       await signOutUser();
       // Redirect or perform additional actions after sign-out
+      naviagte('/main');
     } catch (error) {
       // Handle the error (e.g., display an error message)
       console.error(error);

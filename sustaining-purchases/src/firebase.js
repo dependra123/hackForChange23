@@ -56,6 +56,7 @@ export const signUp = async (email, password) => {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
       console.log("User signed in with Google:", user);
+      
       return user;
     } catch (error) {
       const errorCode = error.code;

@@ -8,10 +8,10 @@ import { Outlet,Link, useNavigate } from "react-router-dom";
 export default function Nav(){
     const userSignedIn = isUserSignedIn();
     const userImage = getUserImage();
-    const navigate = useNavigate();
+    const naviagte = useNavigate();
   const handleButtonClick = () => {
     // Navigate to the desired route when the button is clicked
-    navigate('/signin');
+    naviagte('/signin');
   };
 return(
     <>
