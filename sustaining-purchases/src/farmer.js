@@ -1,13 +1,25 @@
 import React, { useState } from 'react';
 import { getUserImage } from './firebase';
+import { useEffect } from 'react';
 
 export default function FarmerPage() {
   const userImage = getUserImage(); // This function returns the user's image
-  const [items, setItems] = useState([
-    { name: 'Item 1', image: '/path/to/image1.jpg', price: 10 },
-    { name: 'Item 2', image: '/path/to/image2.jpg', price: 20 },
-    { name: 'Item 3', image: '/path/to/image3.jpg', price: 30 },
-  ]);
+  const [items, setItems] = useState(() => {
+    const savedItems = localStorage.getItem('items');
+    if (savedItems) {
+      return JSON.parse(savedItems);
+    } else {
+      return [
+        { name: 'Item 1', image: '/path/to/image1.jpg', price: 10 },
+        { name: 'Item 2', image: '/path/to/image2.jpg', price: 20 },
+        { name: 'Item 3', image: '/path/to/image3.jpg', price: 30 },
+      ];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('items', JSON.stringify(items));
+  }, [items]);
   const [newItemName, setNewItemName] = useState('');
   const [newItemImage, setNewItemImage] = useState('');
   const [newItemPrice, setNewItemPrice] = useState('');
