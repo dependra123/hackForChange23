@@ -11,6 +11,9 @@ export default function FarmerPage() {
   const [newItemName, setNewItemName] = useState('');
   const [newItemImage, setNewItemImage] = useState('');
   const [newItemPrice, setNewItemPrice] = useState('');
+  const handleRemoveItem = (name) => {
+    setItems(items.filter(item => item.name !== name));
+  };
 
   const handleAddItem = () => {
     const newItem = { name: newItemName, image: newItemImage, price: newItemPrice };
@@ -30,12 +33,13 @@ export default function FarmerPage() {
           <button onClick={handleAddItem}>Add Item</button>
         </div>
         {items.map(item => (
-          <div key={item.name} style={{ display: 'flex', alignItems: 'center', marginBottom: 10 }}>
-            <img src={item.image} alt={item.name} style={{ width: 50, height: 50, marginRight: 10 }} />
-            <div>{item.name}</div>
-            <div style={{ marginLeft: 'auto' }}>${item.price}</div>
-          </div>
-        ))}
+        <div key={item.name} style={{ display: 'flex', alignItems: 'center', marginBottom: 10 }}>
+          <img src={item.image} alt={item.name} style={{ width: 50, height: 50, marginRight: 10 }} />
+          <div>{item.name}</div>
+          <div style={{ marginLeft: 'auto' }}>${item.price}</div>
+          <button onClick={() => handleRemoveItem(item.name)}>Remove Item</button>
+        </div>
+      ))}
       </div>
       <div>
         <img src={userImage} alt="User" style={{ width: 100, height: 100 }} />
