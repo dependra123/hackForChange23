@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signUp, signIn, signInWithGoogle, signOutUser, isUserSignedIn, getUserImage, setUserType} from './firebase'; // Adjust the path based on your project structure
 import { and } from 'firebase/firestore';
+import { color } from 'framer-motion';
 
 const AuthComponent = () => {
   const [email, setEmail] = useState('');
@@ -11,6 +12,7 @@ const AuthComponent = () => {
   const [userSignedIn, setUserSignedIn] = useState(false);
   const [userImage, setUserImage] = useState(null);
   const [userType, setType] = useState('');
+  const [existingUserError, setexistingusererror] = useState(false);
   const naviagte = useNavigate();
 
   useEffect(() => {
@@ -25,10 +27,10 @@ const AuthComponent = () => {
       // Redirect or perform additional actions after successful sign-up
       naviagte('/main');
       setUserType(userType);
-
     } catch (error) {
       // Handle the error (e.g., display an error message)
       console.log(error);
+      if (error.code === "auth/email-already-in-use") setexistingusererror(true);
     }
   };
 
@@ -61,7 +63,7 @@ const AuthComponent = () => {
         <div>
           <h2>Sign Up</h2>
           <label>Email:</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input type="email" value={email} onChange={(e) => {setexistingusererror(false); setEmail(e.target.value)}} />
           <br/>
           <label>Password:</label>
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
@@ -77,9 +79,9 @@ const AuthComponent = () => {
             <option value="farmer">farmer</option> 
             <option value="restaurant">restaurant</option> 
           </select>
-
           <br/>
-          <button onClick={handleSignUp} disabled = {(!(confirmpassword===password)||(userType===''))}>Sign Up with Email</button>
+          <button onClick={handleSignUp} disabled = {(!(confirmpassword===password)||(userType==='')||(password.length<7))}>Sign Up with Email</button>
+          <label style={{ color: 'Red', visibility: existingUserError ? 'visible' : 'hidden' }}>email already registered</label>
           <p>
             Already have an account? <Link to="/signin">Sign In</Link>
           </p>
