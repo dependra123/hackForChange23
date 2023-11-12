@@ -43,33 +43,37 @@ export const signUp = async (email, password) => {
   
   // Function to handle user sign-in
   export const signIn = async (email, password) => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+  await signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential)=>{
       const user = userCredential.user;
       console.log("User signed in:", user);
       return user;
-    } catch (error) {
+    })
+    .catch((error)=>{
       const errorCode = error.code;
       const errorMessage = error.message;
       console.error("Sign in error:", errorCode, errorMessage);
       throw error;
-    }
+    })
+      
   };
   
   // Function to handle Google sign-in
   export const signInWithGoogle = async () => {
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
+    await signInWithPopup(auth, googleProvider)
+    .then ((userCredential)=>{
+      
+      const user = userCredential.user;
       console.log("User signed in with Google:", user);
       
       return user;
-    } catch (error) {
+    })
+    .catch((error)=>{
       const errorCode = error.code;
       const errorMessage = error.message;
       console.error("Google sign-in error:", errorCode, errorMessage);
       throw error;
-    }
+    })
   };
   
   // Function to handle user sign-out
@@ -82,15 +86,15 @@ export const signUp = async (email, password) => {
       throw error;
     }
   };
-export const isUserSignedIn = () => {
+  export const isUserSignedIn = () => {
     const user = auth.currentUser;
-    return !!user; // Returns true if the user is signed in, false otherwise
+    return user; // Returns true if the user is signed in, false otherwise
   };
   
   // Function to get the user's image (you can modify this to return other user data)
-export const getUserImage = () => {
+  export const getUserImage = () => {
     const user = auth.currentUser;
-    if (user) {
+    if (user){
       // You may have stored the user's image URL in the user object or in the database
       // For demonstration purposes, let's assume there's an 'image' property in the user object
       return user.photoURL || 'default_image_url.jpg'; // Replace 'default_image_url.jpg' with your default image URL
@@ -111,4 +115,12 @@ export const getUsertype = async () =>{
     return docSnap.data
   }
 }
-export const setUserType = async(type) =>{await setDoc(doc(db, userId, "type"), data);}
+export const setUserType = async(type) =>{
+  await setDoc(doc(db, userId, "type"), type)
+    .then((x)=>{
+      console.log(x);
+    })
+    .catch((e)=>{
+      console.log(e);
+    })
+  }
