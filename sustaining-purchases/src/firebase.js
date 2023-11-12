@@ -198,6 +198,12 @@ export const handleUpload = async (file) => {
     console.log("error", error);
   }
 };
+export const fetchUserLocation = async () => {
+  const response = await fetch("https://geolocation-db.com/json/");
+  const data = await response.json();
+
+  return data;
+};
 
 //make a function that can create a product for a farmer under the farmers id in users. add the product to that collection, if collection does not exist, create it. product will have a name, price, and image url and loction of the farmer.
 export const createProduct = async (name, price, image, location) => {

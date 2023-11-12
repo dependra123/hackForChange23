@@ -8,12 +8,19 @@ export default function Account() {
     const navigate = useNavigate();
     
     useEffect(() => {
-        if (getUserType() === "buyer") {
-            navigate(`/buyer/${userId}`);
-        } else {
-            navigate(`/farmer/${userId}`);
-        }
-    });
+        getUserType()
+            .then((userType) => {
+                if (userType === "returner" || userType === "buyer" || userType === "restaurant") {
+                    navigate(`/buyer/${userId}`);
+                } else {
+                    navigate(`/farmer/${userId}`);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+      
+    },[]);
 
     return(
  
