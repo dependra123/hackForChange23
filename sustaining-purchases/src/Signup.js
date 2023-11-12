@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signUp, signIn, signInWithGoogle, signOutUser, isUserSignedIn, getUserImage, setUserType} from './firebase'; // Adjust the path based on your project structure
+import { and } from 'firebase/firestore';
 
 const AuthComponent = () => {
   const [email, setEmail] = useState('');
@@ -72,13 +73,13 @@ const AuthComponent = () => {
           <br/>
           <label for="user">Are you a farmer or a restaurant:</label> 
           <select name="usertype" id="usertype" onChange={handleSelect}>
-            <option value="-">-</option> 
+            <option value="">-</option> 
             <option value="farmer">farmer</option> 
             <option value="restaurant">restaurant</option> 
           </select>
 
           <br/>
-          <button onClick={handleSignUp} disabled = {!(confirmpassword===password)}>Sign Up with Email</button>
+          <button onClick={handleSignUp} disabled = {(!(confirmpassword===password)||(userType===''))}>Sign Up with Email</button>
           <p>
             Already have an account? <Link to="/signin">Sign In</Link>
           </p>
