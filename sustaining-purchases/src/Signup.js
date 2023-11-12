@@ -71,7 +71,8 @@ const AuthComponent = () => {
           <label style = {{visibility:(confirmpassword===password)?"hidden":"visible"}}>passwords don't match</label>
           <br/>
           <label for="user">Are you a farmer or a restaurant:</label> 
-          <select name="usertype" id="usertype" onChange={handleSelect}> 
+          <select name="usertype" id="usertype" onChange={handleSelect}>
+            <option value="-">-</option> 
             <option value="farmer">farmer</option> 
             <option value="restaurant">restaurant</option> 
           </select>
