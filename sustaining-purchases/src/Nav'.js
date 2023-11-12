@@ -1,13 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { isUserSignedIn,getUserImage, signOutUser } from './firebase';// Import the useAuth hook
 
 function Nav() {
-  
 const naviagte = useNavigate();
-const userImage = getUserImage();
-   
+const [userImage, setUserImage] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const image = await getUserImage();
+        setUserImage(image);
+      } catch (error) {
+        console.error('Error fetching user image', error);
+        // Handle the error if needed
+      }
+    };
+
+    if (isUserSignedIn()) {
+      fetchData();
+    }
+  }, []); // Empty dependency array ensures useEffect runs only once (on mount)
+
   const handleButtonClick = () => {
     // Navigate to the desired route when the button is clicked
     naviagte('/signin');
