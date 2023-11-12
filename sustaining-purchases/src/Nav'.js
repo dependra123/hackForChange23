@@ -2,12 +2,14 @@ import React from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { isUserSignedIn,getUserImage, signOutUser } from './firebase';// Import the useAuth hook
+import { useState, useEffect } from 'react';
 
 function Nav() {
   
 const naviagte = useNavigate();
-const userImage = getUserImage();
+const [userImage, setUserImage] = useState(null);
    
+useEffect(() => {setUserImage(getUserImage());}, []);
   const handleButtonClick = () => {
     // Navigate to the desired route when the button is clicked
     naviagte('/signin');
@@ -23,6 +25,7 @@ const userImage = getUserImage();
       console.error(error);
     }
   };
+  
 
   return (
     <>

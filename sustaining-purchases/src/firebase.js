@@ -95,7 +95,8 @@ export const signUp = async (email, password) => {
     return user; // Returns true if the user is signed in, false otherwise
   };
   
-  // Function to get the user's image (you can modify this to return other user data)
+  
+// Function to get the user's image (you can modify this to return other user data)
   export const getUserImage = () => {
     const user = auth.currentUser;
     if (user){
@@ -106,6 +107,7 @@ export const signUp = async (email, password) => {
       return null; // Return null if the user is not signed in
     }
   };
+  
   export const getUserName = () => { 
     const user = auth.currentUser;
     if (user){
@@ -115,7 +117,7 @@ export const signUp = async (email, password) => {
     }
   };
   
-export const userId = () =>{
+  export const userId = () =>{
   const user = auth.currentUser;
   if(isUserSignedIn()){
     return user.userId;
@@ -178,9 +180,10 @@ export const setUserType = async (type) => {
     console.error("Error setting user type:", error);
     throw error;
   }
+
 };
-const handleUpload = async (event) => {
-  const uploadedFile = event?.target.files[0];
+export const handleUpload = async (file) => {
+  const uploadedFile = file;
   if (!uploadedFile) return;
 
   const storage = getStorage();
@@ -253,4 +256,5 @@ export const getProducts = async () => {
     console.error("Error getting user type:", error);
     throw error;
   }
+
 };
