@@ -88,21 +88,47 @@ export const signUp = async (email, password) => {
     }
   };
   export const isUserSignedIn = () => {
-    const user = auth.currentUser;
-    return user; // Returns true if the user is signed in, false otherwise
+    return new Promise((resolve, reject) => {
+      const unsubscribe = auth.onAuthStateChanged(user => {
+        // Unsubscribe to the observer to avoid memory leaks
+        unsubscribe();
+  
+        if (user) {
+          // User is signed in
+          resolve(true);
+        } else {
+          // No user is signed in
+          resolve(false);
+        }
+      }, reject);
+    });
   };
   
   // Function to get the user's image (you can modify this to return other user data)
   export const getUserImage = () => {
-    const user = auth.currentUser;
-    if (user){
-      // You may have stored the user's image URL in the user object or in the database
-      // For demonstration purposes, let's assume there's an 'image' property in the user object
-      return user.photoURL || 'default_image_url.jpg'; // Replace 'default_image_url.jpg' with your default image URL
-    } else {
-      return null; // Return null if the user is not signed in
-    }
+    return new Promise((resolve) => {
+      const unsubscribe = auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          try {
+            await user.reload(); // Refresh the user data asynchronously
+            console.log("image");
+            resolve(user.photoURL || 'default_image_url.jpg');
+          } catch (error) {
+            console.error('Error refreshing user data', error);
+            console.log("defaultimage");
+            resolve('default_image_url.jpg'); // Fallback to default image URL
+          } finally {
+            unsubscribe(); // Unsubscribe to the observer to avoid memory leaks
+          }
+        } else {
+          console.log("defaultimage");
+          resolve('default_image_url.jpg'); // Return default image URL if the user is not signed in
+          unsubscribe(); // Unsubscribe to the observer
+        }
+      });
+    });
   };
+  
   export const getUserName = () => { 
     const user = auth.currentUser;
     if (user){
@@ -112,7 +138,7 @@ export const signUp = async (email, password) => {
     }
   };
   
-export const userId = () =>{
+  export const userId = () =>{
   const user = auth.currentUser;
   if(isUserSignedIn()){
     return user.userId;
