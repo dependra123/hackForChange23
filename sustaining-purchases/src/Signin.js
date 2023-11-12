@@ -8,7 +8,9 @@ const AuthComponent = () => {
   const [password, setPassword] = useState('');
   const [userSignedIn, setUserSignedIn] = useState(false);
   const [userImage, setUserImage] = useState(null);
+  const [invalidlogin, setloginerror] = useState(false);
   const naviagte = useNavigate();
+  
 
   useEffect(() => {
     // Check user sign-in status and fetch user image on component mount
@@ -42,6 +44,7 @@ const AuthComponent = () => {
     } catch (error) {
       // Handle the error (e.g., display an error message)
       console.error(error);
+      setloginerror(true);
     }
   };
 
@@ -93,12 +96,13 @@ const handleSignInWithGoogle = async () => {
         <div>
           <h2>Sign In or Sign Up</h2>
           <label>Email:</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input type="email" value={email} onChange={(e) => {setloginerror(false); setEmail(e.target.value)}} />
           <br/>
           <label>Password:</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <input type="password" value={password} onChange={(e) => {setloginerror(false); setPassword(e.target.value)}} />
           <br/>
           <button onClick={handleSignInWithEmail}>Sign In with Email</button>
+          <label style={{ color: 'Red', display: invalidlogin ? 'inline-block' : 'none' }}>invalid login</label>
           <br/>
           <button onClick={()=>{
             handleSignInWithGoogle();

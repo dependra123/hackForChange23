@@ -36,10 +36,11 @@ export const signUp = async (email, password) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.error("Sign up error:", errorCode, errorMessage);
+      console.log("error message: ", errorMessage);
       throw error;
     })
       
-    };
+  };
   
   // Function to handle user sign-in
   export const signIn = async (email, password) => {

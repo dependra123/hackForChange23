@@ -11,6 +11,7 @@ const AuthComponent = () => {
   const [userImage, setUserImage] = useState(null);
   const [userType, setType] = useState('');
   const naviagte = useNavigate();
+  
 
   useEffect(() => {
     // Check user sign-in status and fetch user image on component mount
@@ -24,7 +25,7 @@ const AuthComponent = () => {
       // Redirect or perform additional actions after successful sign-up
       
       setUserType(userType);
-naviagte('/main');
+      naviagte('/main');
     } catch (error) {
       // Handle the error (e.g., display an error message)
       console.log(error);
