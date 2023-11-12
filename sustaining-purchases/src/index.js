@@ -9,6 +9,7 @@ import Signup from './Signup';
 import Account from './account';
 import Farmer from './farmer';
 import SelectType from './selectType';
+import Buyer from './buyer';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -24,7 +25,7 @@ root.render(
           <Route path="account" element={<Account/>}/>
           <Route path="select-type" element={<SelectType/>}/>
           <Route path="/farmer/:username" element={<Farmer/>}/>
-            {/* <Route path="/buyer/:username" element={<Buyer/>}/> */}
+            <Route path="/buyer/:username" element={<Buyer/>}/>
             
           
           </Route>
