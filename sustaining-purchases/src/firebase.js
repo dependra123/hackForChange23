@@ -2,6 +2,9 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useEffect, useState } from "react";
+import { getFirestore } from "firebase/firestore";
+import { doc, getDoc, setDoc, collection} from "firebase/firestore";
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -17,6 +20,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+export const db = getFirestore(app);
 
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
@@ -94,3 +98,17 @@ export const getUserImage = () => {
       return null; // Return null if the user is not signed in
     }
   };
+export const userId = () =>{
+  const user = auth.currentUser;
+  if(isUserSignedIn()){
+    return user.userId;
+  }
+}
+export const getUsertype = async () =>{
+  const docRef = doc(db, userId, "type");
+  const docSnap = await getDoc(docRef);
+  if(docSnap.exists){
+    return docSnap.data
+  }
+}
+export const setUserType = async(type) =>{await setDoc(doc(db, userId, "type"), data);}

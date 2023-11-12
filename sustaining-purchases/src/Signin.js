@@ -71,17 +71,15 @@ const AuthComponent = () => {
         </div>
       ) : (
         <div>
-          <h2>Sign In</h2>
+          <h2>Sign In or Sign Up</h2>
           <label>Email:</label>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <br/>
           <label>Password:</label>
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          <br/>
           <button onClick={handleSignInWithEmail}>Sign In with Email</button>
           <button onClick={()=>{
             handleSignInWithGoogle();
-            console.log(isUserSignedIn());
+            console.log(isUserSignedIn());  
           }}>Sign In with Google</button>
           <p>
             Don't have an account? <Link to="/signup">Sign Up</Link>
