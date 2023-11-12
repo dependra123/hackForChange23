@@ -1,7 +1,7 @@
 // src/components/AuthComponent.js
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { signUp, signIn, signInWithGoogle, signOutUser, isUserSignedIn, getUserImage } from './firebase'; // Adjust the path based on your project structure
+import { signUp, signIn, signInWithGoogle, signOutUser, isUserSignedIn, getUserImage, userId, getUserType } from './firebase'; // Adjust the path based on your project structure
 
 const AuthComponent = () => {
   const [email, setEmail] = useState('');
@@ -15,7 +15,14 @@ const AuthComponent = () => {
     setUserSignedIn(isUserSignedIn());
     setUserImage(getUserImage());
   }, []);
-
+  const navigate = useNavigate();
+  const navToProfile = () => {
+    if (getUserType() === "buyer") {
+        navigate(`/buyer/${userId}`);
+    } else {
+        navigate(`/farmer/${userId}`);
+    }
+  };
   const handleSignUp = async () => {
     try {
       await signUp(email, password);
@@ -31,24 +38,37 @@ const AuthComponent = () => {
     try {
       await signIn(email, password);
       // Redirect or perform additional actions after successful sign-in
-      naviagte('/main');
+      navToProfile();
     } catch (error) {
       // Handle the error (e.g., display an error message)
       console.error(error);
     }
   };
 
-  const handleSignInWithGoogle = async () => {
-    try {
-      await signInWithGoogle();
-      // Redirect or perform additional actions after successful sign-in with Google
-      naviagte('/main');
-    } catch (error) {
-      // Handle the error (e.g., display an error message)
-      console.error(error);
+const handleSignInWithGoogle = async () => {
+  try {
+    const userCredential = await signInWithGoogle();
+    const user = userCredential.user;
+    
+    if (!user) {
+      throw new Error('No user');
     }
     
-  };
+    if (!userId) {
+      throw new Error('No user ID');
+    }
+    const userType = await getUserType(userId);
+    if (userType) {
+      navigate('/main');
+    } else {
+      navigate('/select-type');
+      localStorage.setItem('userId', userId);
+    }
+  } catch (error) {
+    navigate('/select-type');
+    localStorage.setItem('userId', userId);
+  }
+};
 
   const handleSignOut = async () => {
     try {

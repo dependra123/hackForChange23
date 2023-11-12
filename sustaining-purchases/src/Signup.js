@@ -22,9 +22,9 @@ const AuthComponent = () => {
     try {
       await signUp(email, password);
       // Redirect or perform additional actions after successful sign-up
-      naviagte('/main');
+      
       setUserType(userType);
-
+naviagte('/main');
     } catch (error) {
       // Handle the error (e.g., display an error message)
       console.log(error);
@@ -78,7 +78,7 @@ const AuthComponent = () => {
           </select>
 
           <br/>
-          <button onClick={handleSignUp} disabled = {!(confirmpassword===password)}>Sign Up with Email</button>
+          <button onClick={handleSignUp} disabled =  {(!(confirmpassword===password) || (userType===''))}>Sign Up with Email</button>
           <p>
             Already have an account? <Link to="/signin">Sign In</Link>
           </p>
