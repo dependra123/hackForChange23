@@ -13,6 +13,7 @@ const AuthComponent = () => {
   const [userImage, setUserImage] = useState(null);
   const [userType, setType] = useState('');
   const [existingUserError, setexistingusererror] = useState(false);
+  const [invalidemailerror, setinvalidemailerror] = useState(false);
   const naviagte = useNavigate();
 
   useEffect(() => {
@@ -31,6 +32,7 @@ const AuthComponent = () => {
       // Handle the error (e.g., display an error message)
       console.log(error);
       if (error.code === "auth/email-already-in-use") setexistingusererror(true);
+      if (error.code === "auth/invalid-email") setinvalidemailerror(true);
     }
   };
 
@@ -63,7 +65,7 @@ const AuthComponent = () => {
         <div>
           <h2>Sign Up</h2>
           <label>Email:</label>
-          <input type="email" value={email} onChange={(e) => {setexistingusererror(false); setEmail(e.target.value)}} />
+          <input type="email" value={email} onChange={(e) => {setinvalidemailerror(false); setexistingusererror(false); setEmail(e.target.value)}} />
           <br/>
           <label>Password:</label>
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
@@ -81,7 +83,8 @@ const AuthComponent = () => {
           </select>
           <br/>
           <button onClick={handleSignUp} disabled = {(!(confirmpassword===password)||(userType==='')||(password.length<7))}>Sign Up with Email</button>
-          <label style={{ color: 'Red', visibility: existingUserError ? 'visible' : 'hidden' }}>email already registered</label>
+          <label style={{ color: 'Red', display: existingUserError ? 'inline-block' : 'none' }}>email already registered</label>
+          <label style={{ color: 'Red', display: invalidemailerror ? 'inline-block' : 'none' }}>invalid email</label>
           <p>
             Already have an account? <Link to="/signin">Sign In</Link>
           </p>
