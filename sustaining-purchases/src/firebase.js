@@ -110,17 +110,36 @@ export const userId = () =>{
 }
 export const getUsertype = async () =>{
   const docRef = doc(db, userId, "type");
-  const docSnap = await getDoc(docRef);
-  if(docSnap.exists){
-    return docSnap.data
-  }
+  await getDoc(docRef)
+  .then((docSnap)=>{
+    console.log(docSnap);
+  })
+  .catch((e)=>{
+    console.log(e);
+  })
+
 }
-export const setUserType = async(type) =>{
-  await setDoc(doc(db, userId, "type"), type)
-    .then((x)=>{
-      console.log(x);
-    })
-    .catch((e)=>{
-      console.log(e);
-    })
+
+export const setUserType = async (type) => {
+  try {
+    // Get the currently authenticated user
+    const user = auth.currentUser;
+
+    // Check if the user is signed in
+    if (user) {
+      // Use the 'doc' function to create a reference to the document in Firestore
+      const userDocRef = doc(db, "users", user.id); // Replace "users" with your collection name
+
+      // Use the 'setDoc' function to set the user type
+      await setDoc(userDocRef, { type });
+
+      console.log("User type set successfully");
+    } else {
+      console.error("User not signed in");
+      // Handle the case where the user is not signed in
+    }
+  } catch (error) {
+    console.error("Error setting user type:", error);
+    throw error;
   }
+};

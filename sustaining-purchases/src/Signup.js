@@ -20,27 +20,16 @@ const AuthComponent = () => {
 
   const handleSignUp = async () => {
     try {
-      setUserType(userType);
       await signUp(email, password);
       // Redirect or perform additional actions after successful sign-up
       naviagte('/main');
+      setUserType(userType);
+
     } catch (error) {
       // Handle the error (e.g., display an error message)
       console.log(error);
     }
   };
-
-  const handleSignInWithEmail = async () => {
-    try {
-      await signIn(email, password);
-      // Redirect or perform additional actions after successful sign-in
-      naviagte('/main');
-    } catch (error) {
-      // Handle the error (e.g., display an error message)
-      console.error(error);
-    }
-  };
-
 
   const handleSignOut = async () => {
     try {
@@ -54,10 +43,11 @@ const AuthComponent = () => {
     }
   };
 
-  const handleSelect = (e)=>{
-    setType(e);
-  }
-
+  const handleSelect = (e) => {
+    const selectedType = e.target.value;
+    console.log(selectedType);
+    setType(selectedType);
+  };
   return (
     <div>
       {userSignedIn ? (
@@ -81,10 +71,11 @@ const AuthComponent = () => {
           <label style = {{visibility:(confirmpassword===password)?"hidden":"visible"}}>passwords don't match</label>
           <br/>
           <label for="user">Are you a farmer or a restaurant:</label> 
-          <select name="usertype" id="usertype" onSelect={handleSelect}> 
-              <option value="farmer">farmer</option> 
-              <option value="restaurant">restaurant</option> 
+          <select name="usertype" id="usertype" onChange={handleSelect}> 
+            <option value="farmer">farmer</option> 
+            <option value="restaurant">restaurant</option> 
           </select>
+
           <br/>
           <button onClick={handleSignUp} disabled = {!(confirmpassword===password)}>Sign Up with Email</button>
           <p>
