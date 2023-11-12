@@ -4,6 +4,8 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
 import { useEffect, useState } from "react";
 import { getFirestore } from "firebase/firestore";
 import { doc, getDoc, setDoc, collection} from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+
 
 
 // Your web app's Firebase configuration
@@ -21,6 +23,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 export const db = getFirestore(app);
+const storage = getStorage(app);
 
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
@@ -173,6 +176,81 @@ export const setUserType = async (type) => {
     }
   } catch (error) {
     console.error("Error setting user type:", error);
+    throw error;
+  }
+};
+const handleUpload = async (event) => {
+  const uploadedFile = event?.target.files[0];
+  if (!uploadedFile) return;
+
+  const storage = getStorage();
+  const storageRef = ref(storage, `images/${uploadedFile.name}`);
+
+  try {
+    await uploadBytes(storageRef, uploadedFile);
+    const url = await getDownloadURL(storageRef);
+    alert("Successfully uploaded picture!");
+    return url;
+  } catch (error) {
+    console.log("error", error);
+  }
+};
+
+//make a function that can create a product for a farmer under the farmers id in users. add the product to that collection, if collection does not exist, create it. product will have a name, price, and image url and loction of the farmer.
+export const createProduct = async (name, price, image, location) => {
+  try {
+    // Get the currently authenticated user
+    const user = auth.currentUser;
+
+    // Check if the user is signed in
+    if (user) {
+      // Use the 'doc' function to create a reference to the document in Firestore
+      const userDocRef = doc(db, "users", user.uid); // Replace "users" with your collection name
+
+      // Use the 'setDoc' function to set the user type
+      await setDoc(userDocRef, { name, price, image, location });
+
+      console.log("User type set successfully");
+    } else {
+      console.error("User not signed in");
+      // Handle the case where the user is not signed in
+    }
+  } catch (error) {
+    console.error("Error setting user type:", error);
+    throw error;
+  }
+};
+//make function to get all products from a farmer
+export const getProducts = async () => {
+  try {
+    // Get the currently authenticated user
+    const user = auth.currentUser;
+
+    // Check if the user is signed in
+    if (user) {
+      // Use the 'doc' function to create a reference to the document in Firestore
+      const userDocRef = doc(db, "users", user.uid); // Replace "users" with your collection name
+
+      // Use the 'getDoc' function to fetch the user document
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (userDocSnap.exists()) {
+        // If the document exists, return the user type
+        const userData = userDocSnap.data();
+        const userType = userData.type;
+        return userType;
+      } else {
+        // Handle the case where the user document does not exist
+        console.error("User document does not exist");
+        return null;
+      }
+    } else {
+      console.error("User not signed in");
+      // Handle the case where the user is not signed in
+      return null;
+    }
+  } catch (error) {
+    console.error("Error getting user type:", error);
     throw error;
   }
 };
